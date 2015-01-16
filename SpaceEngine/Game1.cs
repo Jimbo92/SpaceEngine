@@ -56,15 +56,13 @@ namespace SpaceEngine
         }
 
         protected override void Update(GameTime gameTime)
-        {
-            Input.Begin();
-
+        {    
             if (Input.KeyboardPressed(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            
 
-            Input.End();
+            Input.Update();
             base.Update(gameTime);
         }
 

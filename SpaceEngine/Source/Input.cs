@@ -13,27 +13,7 @@ using Microsoft.Xna.Framework.GamerServices;
     static class Input
     {
         static public KeyboardState PreviousKeyboard;
-        static public KeyboardState CurrentKeyboard;
-
-        static public bool KeyboardPressed(Keys key)
-        {
-            return CurrentKeyboard.IsKeyDown(key) & PreviousKeyboard.IsKeyUp(key);
-        }
-        static public bool KeyboardReleased(Keys key)
-        {
-            return CurrentKeyboard.IsKeyUp(key) & PreviousKeyboard.IsKeyDown(key);
-        }
-        static public bool KeyboardPress(Keys key)
-        {
-            return CurrentKeyboard.IsKeyDown(key);
-        }
-        static public bool KeyboardRelease(Keys key)
-        {
-            return CurrentKeyboard.IsKeyUp(key);
-        }
-
         static public MouseState PreviousMouse;
-        static public MouseState CurrentMouse;
 
         public enum EClicks
         {
@@ -42,13 +22,31 @@ using Microsoft.Xna.Framework.GamerServices;
             RIGHT
         }
 
+        static public bool KeyboardPressed(Keys key)
+        {
+            return Keyboard.GetState().IsKeyDown(key) & PreviousKeyboard.IsKeyUp(key);
+        }
+        static public bool KeyboardReleased(Keys key)
+        {
+            return Keyboard.GetState().IsKeyUp(key) & PreviousKeyboard.IsKeyDown(key);
+        }
+        static public bool KeyboardPress(Keys key)
+        {
+            return Keyboard.GetState().IsKeyDown(key);
+
+        }
+        static public bool KeyboardRelease(Keys key)
+        {
+            return Keyboard.GetState().IsKeyUp(key);
+        }
+
         static public bool ClickPressed(EClicks click)
         {
             switch (click)
             {
-                case EClicks.LEFT: return CurrentMouse.LeftButton == ButtonState.Pressed & PreviousMouse.LeftButton == ButtonState.Released;
-                case EClicks.MIDDLE: return CurrentMouse.MiddleButton == ButtonState.Pressed & PreviousMouse.MiddleButton == ButtonState.Released;
-                case EClicks.RIGHT: return CurrentMouse.RightButton == ButtonState.Pressed & PreviousMouse.RightButton == ButtonState.Released;
+                case EClicks.LEFT: return Mouse.GetState().LeftButton == ButtonState.Pressed & PreviousMouse.LeftButton == ButtonState.Released;
+                case EClicks.MIDDLE: return Mouse.GetState().MiddleButton == ButtonState.Pressed & PreviousMouse.MiddleButton == ButtonState.Released;
+                case EClicks.RIGHT: return Mouse.GetState().RightButton == ButtonState.Pressed & PreviousMouse.RightButton == ButtonState.Released;
             }
             return false;
         }
@@ -56,9 +54,9 @@ using Microsoft.Xna.Framework.GamerServices;
         {
             switch (click)
             {
-                case EClicks.LEFT: return CurrentMouse.LeftButton == ButtonState.Pressed;
-                case EClicks.MIDDLE: return CurrentMouse.MiddleButton == ButtonState.Pressed;
-                case EClicks.RIGHT: return CurrentMouse.RightButton == ButtonState.Pressed;
+                case EClicks.LEFT: return Mouse.GetState().LeftButton == ButtonState.Pressed;
+                case EClicks.MIDDLE: return Mouse.GetState().MiddleButton == ButtonState.Pressed;
+                case EClicks.RIGHT: return Mouse.GetState().RightButton == ButtonState.Pressed;
             }
             return false;
         }
@@ -66,9 +64,9 @@ using Microsoft.Xna.Framework.GamerServices;
         {
             switch (click)
             {
-                case EClicks.LEFT: return CurrentMouse.LeftButton == ButtonState.Released & PreviousMouse.LeftButton == ButtonState.Pressed;
-                case EClicks.MIDDLE: return CurrentMouse.MiddleButton == ButtonState.Released & PreviousMouse.MiddleButton == ButtonState.Pressed;
-                case EClicks.RIGHT: return CurrentMouse.RightButton == ButtonState.Released & PreviousMouse.RightButton == ButtonState.Pressed;
+                case EClicks.LEFT: return Mouse.GetState().LeftButton == ButtonState.Released & PreviousMouse.LeftButton == ButtonState.Pressed;
+                case EClicks.MIDDLE: return Mouse.GetState().MiddleButton == ButtonState.Released & PreviousMouse.MiddleButton == ButtonState.Pressed;
+                case EClicks.RIGHT: return Mouse.GetState().RightButton == ButtonState.Released & PreviousMouse.RightButton == ButtonState.Pressed;
             }
             return false;
         }
@@ -76,22 +74,16 @@ using Microsoft.Xna.Framework.GamerServices;
         {
             switch (click)
             {
-                case EClicks.LEFT: return CurrentMouse.LeftButton == ButtonState.Released;
-                case EClicks.MIDDLE: return CurrentMouse.MiddleButton == ButtonState.Released;
-                case EClicks.RIGHT: return CurrentMouse.RightButton == ButtonState.Released;
+                case EClicks.LEFT: return Mouse.GetState().LeftButton == ButtonState.Released;
+                case EClicks.MIDDLE: return Mouse.GetState().MiddleButton == ButtonState.Released;
+                case EClicks.RIGHT: return Mouse.GetState().RightButton == ButtonState.Released;
             }
             return false;
         }
 
-        static public void Begin()
+        static public void Update()
         {
-            CurrentKeyboard = Keyboard.GetState();
-            CurrentMouse = Mouse.GetState();
-        }
-
-        static public void End()
-        {
-            PreviousKeyboard = CurrentKeyboard;
-            PreviousMouse = CurrentMouse;
+            PreviousKeyboard = Keyboard.GetState();
+            PreviousMouse = Mouse.GetState();
         }
     }
