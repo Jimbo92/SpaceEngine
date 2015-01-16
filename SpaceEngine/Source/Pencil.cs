@@ -20,13 +20,12 @@ namespace SpaceEngine
             sB = spritebatch;
         }
 
-        public static void drawSprite(Vector2 position, float direction, Texture2D texture)
+        public static void drawSprite(Vector2 position, float direction, Texture2D texture, Color colour, BlendState blendstate)
         {
-            sB.Begin();
+            sB.Begin(SpriteSortMode.Deferred, blendstate);
             float xfactor = Game1._ScreenSize.X / 800;
             float yfactor = Game1._ScreenSize.Y / 600;
-            sB.Draw(texture, new Rectangle((int)(position.X * xfactor), (int)(position.Y * yfactor), (int)(texture.Width * xfactor), (int)(texture.Height * yfactor)), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, direction, new Vector2(texture.Width / 2, texture.Height / 2), SpriteEffects.None, 0);
-
+            sB.Draw(texture, new Rectangle((int)(position.X * xfactor), (int)(position.Y * yfactor), (int)(texture.Width * xfactor), (int)(texture.Height * yfactor)), new Rectangle(0, 0, texture.Width, texture.Height), colour, direction, new Vector2(texture.Width, texture.Height) / 2, SpriteEffects.None, 0);
             sB.End();
         }
     }

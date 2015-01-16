@@ -70,8 +70,9 @@ namespace SpaceEngine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
 
-            Pencil.drawSprite(new Vector2(400, 300), 45, tex);
+            Pencil.drawSprite(new Vector2(400, 300), 45, tex, Color.White, BlendState.NonPremultiplied);
 
+            Pencil.drawSprite(new Vector2(250, 125), 45, tex, Color.White, BlendState.Additive);
 
             base.Draw(gameTime);
         }
