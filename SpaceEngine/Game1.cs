@@ -18,7 +18,6 @@ namespace SpaceEngine
         SpriteBatch spriteBatch;
 
         //Global Varibles
-        Texture2D tex;
         public static Vector2 _ScreenSize = new Vector2(800, 600);
 
 
@@ -56,10 +55,6 @@ namespace SpaceEngine
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Storage.Loader(Content);
             Pencil.giveBatch(spriteBatch);
-
-            Storage.D_Planet = Content.Load<Texture2D>("planet.png");
-            Storage.D_Object = Content.Load<Texture2D>("object.png");
-
         }
 
         protected override void UnloadContent()
@@ -102,12 +97,10 @@ namespace SpaceEngine
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Pencil.drawFont(new Vector2(400, 100), Storage._Font_Basic, "This is Text", 1, Color.White);
+            Pencil.drawFont(new Vector2(400, 100), Storage.Font_Basic, "This is Text", 1, Color.White);
 
             Pencil.drawSprite(planetPos, 0, Storage.D_Planet, Color.White, BlendState.AlphaBlend);
             Pencil.drawSprite(objectPos, 0, Storage.D_Object, Color.White, BlendState.AlphaBlend);
-
-            Pencil.drawSprite(new Vector2(250, 125), 90, tex, Color.White, BlendState.Additive);
 
             base.Draw(gameTime);
         }
