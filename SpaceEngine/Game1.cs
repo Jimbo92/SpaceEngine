@@ -20,9 +20,10 @@ namespace SpaceEngine
         //Global Varibles
         public static Vector2 _ScreenSize = new Vector2(800, 600);
 
+        Player _player;
 
-        float mass = 1;
-        Vector2 planetPos;
+        float mass = 1f;
+        public static Vector2 planetPos;
         Vector2 objectPos;
         Vector2 objectVel;
 
@@ -39,7 +40,7 @@ namespace SpaceEngine
 
             planetPos = new Vector2(200);
             objectPos = new Vector2(500, 300);
-            objectVel.Y = -1;
+            objectVel.Y = -1f;
 
             #if WINDOWS
             graphics.PreferredBackBufferWidth = (int)_ScreenSize.X;
@@ -55,6 +56,8 @@ namespace SpaceEngine
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Storage.Loader(Content);
             Pencil.giveBatch(spriteBatch);
+
+            _player = new Player();
         }
 
         protected override void UnloadContent()
@@ -67,6 +70,7 @@ namespace SpaceEngine
             if (Input.KeyboardPressed(Keys.Escape))
                 Exit();
 
+            _player.Update();
 
             if (Input.ClickPressed(Input.EClicks.LEFT))
             {
@@ -101,6 +105,8 @@ namespace SpaceEngine
 
             Pencil.drawSprite(planetPos, 0, Storage.D_Planet, Color.White, BlendState.AlphaBlend);
             Pencil.drawSprite(objectPos, 0, Storage.D_Object, Color.White, BlendState.AlphaBlend);
+
+            _player.Draw();
 
             base.Draw(gameTime);
         }

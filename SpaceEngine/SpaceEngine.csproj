@@ -41,6 +41,7 @@
     <Compile Include="Source\Entity.cs" />
     <Compile Include="Source\Input.cs" />
     <Compile Include="Source\Pencil.cs" />
+    <Compile Include="Source\Player.cs" />
     <Compile Include="Source\Storage.cs" />
   </ItemGroup>
   <ItemGroup>
