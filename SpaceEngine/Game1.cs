@@ -11,15 +11,14 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace SpaceEngine
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         //Global Varibles
+        Texture2D tex;
         public static Vector2 _ScreenSize = new Vector2(800, 600);
 
         public Game1()
@@ -44,22 +43,22 @@ namespace SpaceEngine
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            Pencil.giveBatch(spriteBatch);
+            tex = Content.Load<Texture2D>("GloveCursor.png");
+
         }
 
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         protected override void Update(GameTime gameTime)
-        {    
+        {
             if (Input.KeyboardPressed(Keys.Escape))
                 Exit();
-
             
 
             Input.Update();
@@ -70,7 +69,9 @@ namespace SpaceEngine
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+
+            Pencil.drawSprite(new Vector2(400, 300), 45, tex);
+
 
             base.Draw(gameTime);
         }
