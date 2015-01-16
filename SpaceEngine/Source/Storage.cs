@@ -16,24 +16,8 @@ namespace SpaceEngine
 {
     static class Storage
     {
-        #region Font Varibles
-        public static SpriteFont _Font_Basic;
-
-        #endregion
-        #region Texture Varibles
-
-        #endregion
-
-        public static void Loader(ContentManager Content)
-        {
-            #region Font Loads
-            _Font_Basic = Content.Load<SpriteFont>("Font");
-
-            #endregion
-            #region Texture Loads
-
-            #endregion
-        }
+        public static Texture2D D_Planet;
+        public static Texture2D D_Object;
 
     }
 }
