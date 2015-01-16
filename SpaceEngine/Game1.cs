@@ -44,7 +44,7 @@ namespace SpaceEngine
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Storage.Loader(Content);
             Pencil.giveBatch(spriteBatch);
             tex = Content.Load<Texture2D>("GloveCursor.png");
 
@@ -69,10 +69,11 @@ namespace SpaceEngine
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            Pencil.drawFont(new Vector2(400, 100), Storage._Font_Basic, "This is Text", 1, Color.White);
 
             Pencil.drawSprite(new Vector2(400, 300), 45, tex, Color.White, BlendState.NonPremultiplied);
 
-            Pencil.drawSprite(new Vector2(250, 125), 45, tex, Color.White, BlendState.Additive);
+            Pencil.drawSprite(new Vector2(250, 125), 90, tex, Color.White, BlendState.Additive);
 
             base.Draw(gameTime);
         }

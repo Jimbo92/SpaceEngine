@@ -25,7 +25,14 @@ namespace SpaceEngine
             sB.Begin(SpriteSortMode.Deferred, blendstate);
             float xfactor = Game1._ScreenSize.X / 800;
             float yfactor = Game1._ScreenSize.Y / 600;
-            sB.Draw(texture, new Rectangle((int)(position.X * xfactor), (int)(position.Y * yfactor), (int)(texture.Width * xfactor), (int)(texture.Height * yfactor)), new Rectangle(0, 0, texture.Width, texture.Height), colour, direction, new Vector2(texture.Width, texture.Height) / 2, SpriteEffects.None, 0);
+            sB.Draw(texture, new Rectangle((int)(position.X * xfactor), (int)(position.Y * yfactor), (int)(texture.Width * xfactor), (int)(texture.Height * yfactor)), new Rectangle(0, 0, texture.Width, texture.Height), colour, MathHelper.ToRadians(direction), new Vector2(texture.Width, texture.Height) / 2, SpriteEffects.None, 0);
+            sB.End();
+        }
+
+        public static void drawFont(Vector2 position, SpriteFont font, string text, float scale, Color colour)
+        {
+            sB.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sB.DrawString(font, text, position, colour, 0, font.MeasureString(text) / 2, scale, SpriteEffects.None, 0);
             sB.End();
         }
     }
