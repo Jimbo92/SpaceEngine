@@ -24,8 +24,8 @@ namespace SpaceEngine
 
         float mass = 1f;
         public static Vector2 planetPos;
-        Vector2 objectPos;
-        Vector2 objectVel;
+        public static Vector2 objectPos;
+        public static Vector2 objectVel;
 
         public Game1()
             : base()
@@ -103,8 +103,8 @@ namespace SpaceEngine
 
             Pencil.drawFont(new Vector2(400, 100), Storage.Font_Basic, "This is Text", 1, Color.White);
 
-            Pencil.drawSprite(planetPos, 0, Storage.D_Planet, Color.White, BlendState.AlphaBlend);
-            Pencil.drawSprite(objectPos, 0, Storage.D_Object, Color.White, BlendState.AlphaBlend);
+            Pencil.drawSprite(planetPos, 0, Storage.D_Planet, Vector2.Zero, Color.White, BlendState.AlphaBlend);
+            Pencil.drawSprite(objectPos, 0, Storage.D_Object, Vector2.Zero, Color.White, BlendState.AlphaBlend);
 
             _player.Draw();
 

@@ -24,7 +24,7 @@ namespace SpaceEngine
 
         public virtual void Draw()
         {
-            Pencil.drawSprite(position, 0, texture, Color.White, BlendState.NonPremultiplied);
+            Pencil.drawSprite(position, 0, texture, Vector2.Zero, Color.White, BlendState.NonPremultiplied);
         }
     }
 

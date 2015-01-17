@@ -11,65 +11,68 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace SpaceEngine
 {
-    class Player
+    class Player : Entity
     {
-        private Texture2D _texture;
+        public Rectangle bounds;
+        public float speed;
+        public float rotation;
 
-        public Vector2 _position;
-        public Rectangle _bounds;
-        public Vector2 _speed;
+        public ParticleEffect_TrailFade TrailEff = new ParticleEffect_TrailFade();
 
         public Player()
         {
-            _texture = Storage.D_Object;
+            texture = Storage.D_Object;
 
-            _position = new Vector2(400, 300);
+            position = new Vector2(400, 300);
+
+            TrailEff.texture = Storage.D_Object;
         }
 
-        public void Update()
+        public override void Update()
         {
-            _bounds = new Rectangle((int)_position.X - _texture.Width / 2, (int)_position.Y - _texture.Height / 2, _texture.Width, _texture.Height);
+            bounds = new Rectangle((int)position.X - texture.Width / 2, (int)position.Y - texture.Height / 2, texture.Width, texture.Height);
 
             //Controls
-            if (Input.KeyboardPress(Keys.Up))
-                if (_speed.Y > -5)
-                    _speed.Y -= 0.25f;
-                else
-                    _speed.Y = -5;
-            if (Input.KeyboardPress(Keys.Down))
-                if (_speed.Y < 5)
-                    _speed.Y += 0.25f;
-                else
-                    _speed.Y = 5;
             if (Input.KeyboardPress(Keys.Right))
-                if (_speed.X < 5)
-                    _speed.X += 0.25f;
-                else
-                    _speed.X = 5;
+                rotation += 0.095f;
+
             if (Input.KeyboardPress(Keys.Left))
-                if (_speed.X > -5)
-                    _speed.X -= 0.25f;
-                else
-                    _speed.X = -5;
+                rotation -= 0.095f;
 
-            if (Input.KeyboardRelease(Keys.Right) && Input.KeyboardRelease(Keys.Left))
-                if (Math.Abs(_speed.X) > 1)
-                    _speed.X *= 0.97f;
+            if (Input.KeyboardPress(Keys.Down))
+                if (speed > -5)
+                    speed -= 0.25f;
                 else
-                    _speed.X = 0;
+                    speed = -5;
+
+            if (Input.KeyboardPress(Keys.Up))
+                if (speed < 5)
+                    speed += 0.25f;
+                else
+                    speed = 5;
+
             if (Input.KeyboardRelease(Keys.Up) && Input.KeyboardRelease(Keys.Down))
-                if (Math.Abs(_speed.Y) > 1)
-                    _speed.Y *= 0.97f;
+                if (Math.Abs(speed) > 1)
+                    speed *= 0.97f;
                 else
-                    _speed.Y = 0;
+                    speed = 0;
 
-            _position += _speed;
+            position.X += speed * (float)Math.Cos(rotation);
+            position.Y += speed * (float)Math.Sin(rotation);
+
+            //Effects
+            TrailEff.Update();
+            TrailEff.position = position;
+            TrailEff.direction = rotation;
 
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            Pencil.drawSprite(_position, 0, _texture, Color.White, BlendState.NonPremultiplied);
+            if (speed != 0)
+                TrailEff.Draw();
+
+            Pencil.drawSprite(position, rotation, texture, Vector2.Zero, Color.White, BlendState.NonPremultiplied);
         }
     }
 }
