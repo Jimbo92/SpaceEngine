@@ -20,12 +20,9 @@ namespace SpaceEngine
         //Global Varibles
         public static Vector2 _ScreenSize = new Vector2(800, 600);
 
-        Player _player;
+        public static List<Entity> Entities = new List<Entity>();
 
-        float mass = 1f;
-        public static Vector2 planetPos;
-        public static Vector2 objectPos;
-        public static Vector2 objectVel;
+        Player _player;
 
         public Game1()
             : base()
@@ -38,9 +35,7 @@ namespace SpaceEngine
         {
             IsMouseVisible = true;
 
-            planetPos = new Vector2(200);
-            objectPos = new Vector2(500, 300);
-            objectVel.Y = -1f;
+            
 
             #if WINDOWS
             graphics.PreferredBackBufferWidth = (int)_ScreenSize.X;
@@ -57,6 +52,11 @@ namespace SpaceEngine
             Storage.Loader(Content);
             Pencil.giveBatch(spriteBatch);
 
+            Entity mars = new Planet(new Vector2(200), Storage.D_Planet,0.1f);
+     
+
+            Entities.Add(mars);
+
             _player = new Player();
         }
 
@@ -71,28 +71,6 @@ namespace SpaceEngine
                 Exit();
 
             _player.Update();
-
-            if (Input.ClickPressed(Input.EClicks.LEFT))
-            {
-                Vector2 mouse = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-                planetPos = mouse;
-            }
-
-            Vector2 diff = planetPos - objectPos;
-
-            float distance = diff.LengthSquared();
-
-            diff.Normalize();
-
-            diff *= mass;
-
-            Vector2 mag = diff - objectVel;
-
-            mag /= 120;
-            objectVel += (diff + mag);
-
-            objectPos += objectVel;
-
             Input.Update();
             base.Update(gameTime);
         }
@@ -103,8 +81,10 @@ namespace SpaceEngine
 
             Pencil.drawFont(new Vector2(400, 100), Storage.Font_Basic, "This is Text", 1, Color.White);
 
-            Pencil.drawSprite(planetPos, 0, Storage.D_Planet, Vector2.Zero, Color.White, BlendState.AlphaBlend);
-            Pencil.drawSprite(objectPos, 0, Storage.D_Object, Vector2.Zero, Color.White, BlendState.AlphaBlend);
+            foreach (Entity e in Entities)
+            {
+                e.Draw();
+            }
 
             _player.Draw();
 

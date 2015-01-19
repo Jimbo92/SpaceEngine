@@ -16,6 +16,7 @@ namespace SpaceEngine
         public Vector2 position;
         public Vector2 velocity;
         public Texture2D texture;
+        public float mass = 1;
 
         public virtual void Update()
         {
@@ -30,10 +31,11 @@ namespace SpaceEngine
 
     public class Planet : Entity
     {
-        public Planet(Vector2 pos, Texture2D tex)
+        public Planet(Vector2 pos, Texture2D tex, float fatness)
         {
             position = pos;
             texture = tex;
+            mass = fatness;
         }
 
         public override void Update()
