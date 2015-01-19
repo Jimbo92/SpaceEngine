@@ -52,7 +52,7 @@ namespace SpaceEngine
             Storage.Loader(Content);
             Pencil.giveBatch(spriteBatch);
 
-            Entity mars = new Planet(new Vector2(200), Storage.D_Planet,0.1f);
+            Entity mars = new Planet(new Vector2(300), Storage.D_Planet,0.1f,100);
      
 
             Entities.Add(mars);
@@ -80,6 +80,10 @@ namespace SpaceEngine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             Pencil.drawFont(new Vector2(400, 100), Storage.Font_Basic, "This is Text", 1, Color.White);
+
+            int x = (int)_player.velocity.X;
+            int y = (int)_player.velocity.Y;
+            Pencil.drawFont(new Vector2(100, 100), Storage.Font_Basic, x.ToString() + " " + y.ToString(), 1, Color.White);
 
             foreach (Entity e in Entities)
             {

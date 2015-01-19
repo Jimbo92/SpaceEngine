@@ -52,7 +52,7 @@ namespace SpaceEngine
                     planet = diff;
 
                     float distance = diff.LengthSquared();
-                    if (distance < 50000 * mass)
+                    if (distance < e.range * e.range)
                     {
                         moveState = move.ATTRACT;
                         diff.Normalize();
@@ -64,10 +64,12 @@ namespace SpaceEngine
                         mag /= 120;
                         velocity += (diff + mag);
 
-                        position += velocity;
+                        
                     }
                 }
             }
+
+            position += velocity;
 
             //Controls
             if (moveState == move.FREE)
@@ -80,34 +82,96 @@ namespace SpaceEngine
 
                 if (Input.KeyboardPress(Keys.Down))
                     if (speed > -5)
-                        speed -= 0.25f;
+                        speed -= 0.75f;
                     else
                         speed = -5;
 
                 if (Input.KeyboardPress(Keys.Up))
                     if (speed < 5)
-                        speed += 0.25f;
+                        speed += 0.75f;
                     else
                         speed = 5;
 
                 if (Input.KeyboardRelease(Keys.Up) && Input.KeyboardRelease(Keys.Down))
+                {
                     if (Math.Abs(speed) > 1)
-                        speed *= 0.97f;
-                    else
-                        speed = 0;
+                    {
 
-                position.X += speed * (float)Math.Cos(rotation);
-                position.Y += speed * (float)Math.Sin(rotation);
+                        speed *= 0.95f;
+                    }
+                    else
+                    {
+                        speed = 0;
+                    }
+
+                    if (Math.Abs(velocity.X) > 1)
+                    {
+
+                        velocity.X *= 0.95f;
+                    }
+                    else
+                    {
+                        velocity.X = 0;
+                    }
+
+                    if (Math.Abs(velocity.Y) > 1)
+                    {
+
+                        velocity.Y *= 0.95f;
+                    }
+                    else
+                    {
+                        velocity.Y = 0;
+                    }
+                }
+                if (velocity.X > 8)
+                {
+                    velocity.X = 8;
+                }
+
+                if (velocity.X < -8)
+                {
+                    velocity.X = -8;
+                }
+
+                if (velocity.Y > 8)
+                {
+                    velocity.Y = 8;
+                }
+
+                if (velocity.Y < -8)
+                {
+                    velocity.Y = -8;
+                }
+
+                velocity.X += (speed / 20f) * (float)Math.Cos(rotation);
+                velocity.Y += (speed / 20f) * (float)Math.Sin(rotation);
+            }
+
+            foreach (Entity e in Game1.Entities)
+            {
+                if (e is Planet)
+                {
+                    if (circletocicle(e.position, 50, position, 20))
+                    {
+                        position -= velocity;
+
+                        velocity = Vector2.Zero;
+                    }
+
+
+                }
+
             }
             if (moveState == move.ATTRACT)
             {
                 if (Input.KeyboardPress(Keys.Left))
                 {
 
-                    if (speed > -1)
+                    if (speed > -2)
                         speed -= 0.25f;
                     else
-                        speed = -1;
+                        speed = -2;
 
         
                 }
@@ -115,13 +179,16 @@ namespace SpaceEngine
                 if (Input.KeyboardPress(Keys.Right))
                 {
 
-                    if (speed < -1)
+                    if (speed < 2)
                         speed += 0.25f;
                     else
-                        speed = 1;
+                        speed = 2;
 
             
                 }
+
+               
+
 
                 if (Input.KeyboardRelease(Keys.Left) && Input.KeyboardRelease(Keys.Right))
                     if (Math.Abs(speed) > 1)
@@ -130,8 +197,34 @@ namespace SpaceEngine
                         speed = 0;
 
                 planet.Normalize();
+
+                if (Input.KeyboardPress(Keys.Up))
+                {
+                    position += planet;
+
+
+                    foreach (Entity e in Game1.Entities)
+                    {
+                        if (e is Planet)
+                        {
+                            if (circletocicle(e.position, 50, position, 20))
+                            {
+                                velocity -= planet * 5;
+                            }
+
+
+                        }
+
+                    }
+
+                    position -= planet;
+
+                }
                 planet *= speed;
-                position += new Vector2(-planet.Y, planet.X);
+               
+                position += new Vector2(planet.Y, -planet.X);
+
+                
 
                 
             }
@@ -141,15 +234,7 @@ namespace SpaceEngine
             TrailEff.position = position;
             TrailEff.direction = rotation;
 
-            foreach (Entity e in Game1.Entities)
-            {
-                if (e is Planet)
-                {
-                    if (circletocicle(e.position, 50, position, 20))
-                        position -= velocity;
-                }
-
-            }
+           
 
             
 
